@@ -11,13 +11,13 @@ namespace Bookzilla.Client.Models
     {
         public const string DatabaseFilename = "bookzillaLocal.db3";
 
-        public const SqlByte.SQLiteOpenFlags Flags =
-            // open the database in read/write mode
-            SQLite.SQLiteOpenFlags.ReadWrite |
-            // create the database if it doesn't exist
-            SQLite.SQLiteOpenFlags.Create |
-            // enable multi-threaded database access
-            SQLite.SQLiteOpenFlags.SharedCache;
+        //public const SqlByte.SQLiteOpenFlags Flags =
+        //    // open the database in read/write mode
+        //    SQLite.SQLiteOpenFlags.ReadWrite |
+        //    // create the database if it doesn't exist
+        //    SQLite.SQLiteOpenFlags.Create |
+        //    // enable multi-threaded database access
+        //    SQLite.SQLiteOpenFlags.SharedCache;
 
         public static string DatabasePath =>
             Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
@@ -35,7 +35,8 @@ namespace Bookzilla.Client.Models
             if (Database is not null)
                 return;
 
-            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            //Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            Database = new SQLiteAsyncConnection(Constants.DatabasePath, SQLite.SQLiteOpenFlags.ReadWrite| SQLite.SQLiteOpenFlags.Create | SQLite.SQLiteOpenFlags.SharedCache);
             var resultcollec = await Database.CreateTableAsync<Collection>();
             var resultserie = await Database.CreateTableAsync<Serie>();
             var resultalbum = await Database.CreateTableAsync<Album>();

@@ -21,4 +21,8 @@
 	  <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Bookzilla.Client.Models\Bookzilla.Client.Models.csproj" />
+	</ItemGroup>
+
 </Project>

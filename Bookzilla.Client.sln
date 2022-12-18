@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookzilla.Client", "Bookzilla.Client\Bookzilla.Client.csproj", "{8E9247BA-DF26-441D-8DF7-E61BF71E68AA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{65551BE8-B9E9-43CD-A59D-9671937707D1} = {65551BE8-B9E9-43CD-A59D-9671937707D1}
+		{9D431FB0-50CA-46E4-8761-1231DB4A818B} = {9D431FB0-50CA-46E4-8761-1231DB4A818B}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookzilla.Client.Models", "Bookzilla.Client.Models\Bookzilla.Client.Models.csproj", "{9D431FB0-50CA-46E4-8761-1231DB4A818B}"
 EndProject

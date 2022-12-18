@@ -38,6 +38,26 @@ namespace Bookzilla.Client.Services.Implémentation
                 await _context.DeleteCollectionAsync(col);
             }
         }
+        private async Task ToServerDeleteSerie()
+        {
+            var Series = await _context.GetSeriesAsync();
+            var ToDeleteSerie = Series.Where(x => x.SynchroStatus == SynchroStatus.Deleted);
+            foreach (var ser in ToDeleteSerie)
+            {
+                await SerieClient.SerieDeleteAsync(ser.Id);
+                await _context.DeleteSerieAsync(ser);
+            }
+        }
+        private async Task ToServerDeleteAlbum()
+        {
+            var Albums = await _context.GetAlbumsAsync();
+            var ToDeleteAlbum = Albums.Where(x => x.SynchroStatus == SynchroStatus.Deleted);
+            foreach (var ser in ToDeleteAlbum)
+            {
+                await AlbumClient.AlbumDeleteAsync(ser.Id);
+                await _context.DeleteAlbumAsync(ser);
+            }
+        }
         private async Task ToServerUpdateCollection()
         {
             var collecs = await _context.GetCollectionsAsync();
@@ -46,6 +66,26 @@ namespace Bookzilla.Client.Services.Implémentation
             {
                 await CollectionClient.CollectionPutAsync(col.Id,ObjetConverter.DbToApi(col));
                 await _context.SaveCollectionAsync(col);
+            }
+        }
+        private async Task ToServerUpdateSerie()
+        {
+            var Series = await _context.GetSeriesAsync();
+            var ToUpdateSerie = Series.Where(x => x.SynchroStatus == SynchroStatus.Changed);
+            foreach (var col in ToUpdateSerie)
+            {
+                await SerieClient.SeriePutAsync(col.Id,ObjetConverter.DbToApi(col));
+                await _context.SaveSerieAsync(col);
+            }
+        }
+        private async Task ToServerUpdateAlbum()
+        {
+            var Albums = await _context.GetAlbumsAsync();
+            var ToUpdateAlbum = Albums.Where(x => x.SynchroStatus == SynchroStatus.Changed);
+            foreach (var col in ToUpdateAlbum)
+            {
+                await AlbumClient.AlbumPutAsync(col.Id,ObjetConverter.DbToApi(col));
+                await _context.SaveAlbumAsync(col);
             }
         }
         private async Task ToServerNewCollection()
@@ -58,8 +98,54 @@ namespace Bookzilla.Client.Services.Implémentation
                 await _context.SaveCollectionAsync(col);
             }
         }
+        private async Task ToServerNewSerie()
+        {
+            var Series = await _context.GetSeriesAsync();
+            var ToCreateSerie = Series.Where(x => x.SynchroStatus == SynchroStatus.New);
+            foreach (var col in ToCreateSerie)
+            {
+                await SerieClient.SeriePostAsync(ObjetConverter.DbToApi(col));
+                await _context.SaveSerieAsync(col);
+            }
+        }
+        private async Task ToServerNewAlbum()
+        {
+            var Albums = await _context.GetAlbumsAsync();
+            var ToCreateAlbum = Albums.Where(x => x.SynchroStatus == SynchroStatus.New);
+            foreach (var col in ToCreateAlbum)
+            {
+                await AlbumClient.AlbumPostAsync(ObjetConverter.DbToApi(col));
+                await _context.SaveAlbumAsync(col);
+            }
+        }
 
-        public async Task<bool> SynchroSerieToServer() { }
-        public async Task<bool> SynchroAlbumToServer() { }
+        public async Task<bool> SynchroSerieToServer()
+        {
+            try
+            {
+                await Task.Run(async () => await ToServerDeleteSerie());
+                await Task.Run(async () => await ToServerUpdateSerie());
+                await Task.Run(async () => await ToServerNewSerie());
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+        public async Task<bool> SynchroAlbumToServer()
+        {
+            try
+            {
+                await Task.Run(async () => await ToServerDeleteAlbum());
+                await Task.Run(async () => await ToServerUpdateAlbum());
+                await Task.Run(async () => await ToServerNewAlbum());
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

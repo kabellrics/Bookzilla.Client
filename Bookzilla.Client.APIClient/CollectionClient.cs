@@ -547,3 +547,4 @@ namespace Bookzilla.Client.APIClient
             return result == null ? "" : result;
         }
     }
+}

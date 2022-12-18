@@ -8,5 +8,8 @@ namespace Bookzilla.Client.Services.Interface
 {
     public interface IDownSynchro
     {
+        Task<bool> SynchroCollectionToServer();
+        Task<bool> SynchroSerieToServer();
+        Task<bool> SynchroAlbumToServer();
     }
 }
