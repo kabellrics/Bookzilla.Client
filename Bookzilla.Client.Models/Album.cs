@@ -14,9 +14,11 @@ namespace Bookzilla.Client.Models
         public int SerieId { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
+        public string LocalPath { get; set; }
         public int Order { get; set; }
         public int CurrentPage { get; set; } = 0;
         public string CoverArtPath { get; set; }
+        public string LocalCoverArtPath { get; set; }
         public ReadingStatus ReadingStatus { get; set; } = ReadingStatus.NonLu;
         public SynchroFileStatus SynchroFileStatus { get; set; } = SynchroFileStatus.None;
 

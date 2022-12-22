@@ -13,5 +13,6 @@ namespace Bookzilla.Client.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageArtPath { get; set; }
+        public string LocalImageArtPath { get; set; }
     }
 }

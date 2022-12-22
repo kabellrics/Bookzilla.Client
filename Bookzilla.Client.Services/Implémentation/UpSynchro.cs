@@ -11,7 +11,7 @@ namespace Bookzilla.Client.Services.Implémentation
 {
     public class UpSynchro : SynchroBase, IUpSynchro
     {
-        public UpSynchro(BookzillaLocalDatabase context, String ApiAddress) : base(context, ApiAddress)
+        public UpSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
         {
         }
         public async Task<bool> SynchroCollectionFromServer()

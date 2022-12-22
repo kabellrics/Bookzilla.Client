@@ -10,7 +10,7 @@ namespace Bookzilla.Client.Services.Implémentation
 {
     public class DownSynchro : SynchroBase, IDownSynchro
     {
-        public DownSynchro(BookzillaLocalDatabase context, String ApiAddress) : base(context, ApiAddress)
+        public DownSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
         {
         }
         public async Task<bool> SynchroCollectionToServer()

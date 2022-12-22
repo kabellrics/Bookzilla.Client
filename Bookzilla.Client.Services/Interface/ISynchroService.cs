@@ -11,5 +11,7 @@ namespace Bookzilla.Client.Services.Interface
         public IUpSynchro Up { get; }
         public IDownSynchro Down { get; }
         public IFileSynchro File { get; }
+        public IFileCleaner Clean { get; }
+
     }
 }

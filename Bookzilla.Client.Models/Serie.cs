@@ -14,6 +14,7 @@ namespace Bookzilla.Client.Models
         public int CollectionId { get; set; }
         public string Name { get; set; }
         public string CoverArtPath { get; set; }
+        public string LocalCoverArtPath { get; set; }
 
     }
 }
