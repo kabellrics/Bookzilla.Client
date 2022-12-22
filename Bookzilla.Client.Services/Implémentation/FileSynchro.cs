@@ -13,7 +13,8 @@ namespace Bookzilla.Client.Services.Implémentation
     public class FileSynchro : SynchroBase, IFileSynchro
     {
         public FileSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
-        {            
+        {
+            
         }
 		public async Task<bool> CollectionArtPartial()
 		{
