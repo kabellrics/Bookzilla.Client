@@ -33,7 +33,8 @@ namespace Bookzilla.Client.Services.Implémentation
         }
         public async Task<int> DeleteSerieAsync(Serie item)
         {
-            return await _context.DeleteSerieAsync(item);
+            item.SynchroStatus = SynchroStatus.Deleted;
+            return await _context.SaveSerieAsync(item);
         }
         public async Task<int> UpsertSerieAsync(Serie item)
         {

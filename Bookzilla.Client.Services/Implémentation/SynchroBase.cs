@@ -16,6 +16,7 @@ namespace Bookzilla.Client.Services.Implémentation
         protected AlbumClient AlbumClient;
         protected CollectionClient CollectionClient;
         protected SerieClient SerieClient;
+        protected FileClient FileClient;
 
         public SynchroBase(BookzillaLocalDatabase context,String ApiAddress, ISettingsService settings)
         {
@@ -24,6 +25,7 @@ namespace Bookzilla.Client.Services.Implémentation
             AlbumClient = new AlbumClient(ApiAddress, new HttpClient());
             CollectionClient = new CollectionClient(ApiAddress, new HttpClient());
             SerieClient = new SerieClient(ApiAddress, new HttpClient());
+            FileClient = new FileClient(ApiAddress, new HttpClient());
         }
     }
 }

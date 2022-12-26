@@ -1,5 +1,7 @@
-﻿using Bookzilla.Client.Models;
+﻿using Bookzilla.Client.APIClient;
+using Bookzilla.Client.Models;
 using Bookzilla.Client.Services.Interface;
+using Microsoft.Maui.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +15,12 @@ namespace Bookzilla.Client.Services.Implémentation
         public DownSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
         {
         }
-        public async Task<bool> SynchroCollectionToServer()
-        {
-            try
-            {
-                await Task.Run(async () => await ToServerDeleteCollection());
-                await Task.Run(async () => await ToServerUpdateCollection());
-                await Task.Run(async () => await ToServerNewCollection());
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            return true;
-        }
 
+        private const string MimeCBZType = "archive/cbz";
+        private const string MimeCBRType = "archive/cbr";
+        private const string MimepngType = "image/png";
+        private const string MimejpgType = "image/jpg";
+        private const string MimeJPEGType = "image/jpeg";
         private async Task ToServerDeleteCollection()
         {
             var collecs = await _context.GetCollectionsAsync();
@@ -65,6 +58,10 @@ namespace Bookzilla.Client.Services.Implémentation
             foreach (var col in ToUpdateCollec)
             {
                 await CollectionClient.CollectionPutAsync(col.Id,ObjetConverter.DbToApi(col));
+                if(col.LocalImageArtPath!= null)
+                {
+                    await FileClient.UpdateCollectionFileAsync(col.Id, new FileParameter(File.OpenRead(col.LocalImageArtPath), Path.GetFileNameWithoutExtension(col.LocalImageArtPath), GetMymeType(col.LocalImageArtPath)));
+                }
                 await _context.SaveCollectionAsync(col);
             }
         }
@@ -75,6 +72,11 @@ namespace Bookzilla.Client.Services.Implémentation
             foreach (var col in ToUpdateSerie)
             {
                 await SerieClient.SeriePutAsync(col.Id,ObjetConverter.DbToApi(col));
+                if (col.LocalCoverArtPath != null)
+                {
+                    await FileClient.UpdateSerieFileAsync(col.Id, new FileParameter(File.OpenRead(col.LocalCoverArtPath), Path.GetFileNameWithoutExtension(col.LocalCoverArtPath), GetMymeType(col.LocalCoverArtPath)));
+                }
+
                 await _context.SaveSerieAsync(col);
             }
         }
@@ -95,6 +97,7 @@ namespace Bookzilla.Client.Services.Implémentation
             foreach (var col in ToCreateCollec)
             {
                 await CollectionClient.CollectionPostAsync(ObjetConverter.DbToApi(col));
+                col.SynchroStatus = SynchroStatus.Deleted;
                 await _context.SaveCollectionAsync(col);
             }
         }
@@ -105,6 +108,7 @@ namespace Bookzilla.Client.Services.Implémentation
             foreach (var col in ToCreateSerie)
             {
                 await SerieClient.SeriePostAsync(ObjetConverter.DbToApi(col));
+                col.SynchroStatus = SynchroStatus.Deleted;
                 await _context.SaveSerieAsync(col);
             }
         }
@@ -114,11 +118,49 @@ namespace Bookzilla.Client.Services.Implémentation
             var ToCreateAlbum = Albums.Where(x => x.SynchroStatus == SynchroStatus.New);
             foreach (var col in ToCreateAlbum)
             {
-                await AlbumClient.AlbumPostAsync(ObjetConverter.DbToApi(col));
+                await FileClient.CreateAlbumAsync(col.Order, col.SerieId, new FileParameter(File.OpenRead(col.LocalPath),col.Name, GetMymeType(col.LocalPath)));
+                col.SynchroStatus = SynchroStatus.Deleted;
                 await _context.SaveAlbumAsync(col);
             }
         }
-
+        private String GetMymeType(string filename)
+        {
+            if (Path.GetExtension(filename) == ".cbz")
+            {
+                return MimeCBZType;
+            }
+            else if (Path.GetExtension(filename) == ".cbr")
+            {
+                return MimeCBRType;
+            }
+            else if (Path.GetExtension(filename) == ".png")
+            {
+                return MimepngType;
+            }
+            else if (Path.GetExtension(filename) == ".jpg")
+            {
+                return MimejpgType;
+            }
+            else if (Path.GetExtension(filename) == ".jpeg")
+            {
+                return MimeJPEGType;
+            }
+            else return string.Empty;
+        }
+        public async Task<bool> SynchroCollectionToServer()
+        {
+            try
+            {
+                await Task.Run(async () => await ToServerDeleteCollection());
+                await Task.Run(async () => await ToServerUpdateCollection());
+                await Task.Run(async () => await ToServerNewCollection());
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
         public async Task<bool> SynchroSerieToServer()
         {
             try

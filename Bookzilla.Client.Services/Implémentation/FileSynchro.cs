@@ -1,17 +1,24 @@
 ﻿using Bookzilla.Client.Models;
 using Bookzilla.Client.Services.Interface;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
 
 namespace Bookzilla.Client.Services.Implémentation
 {
     public class FileSynchro : SynchroBase, IFileSynchro
     {
+        private readonly string CollecArtFolder = "CollecArt";
+        private readonly string SerieArtFolder = "SerieArt";
+        private readonly string CoverFolder = "Cover";
+        private readonly string FileFolder = "File";
         public FileSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
         {
             
@@ -45,14 +52,6 @@ namespace Bookzilla.Client.Services.Implémentation
 			}
 			return true;
         }
-
-        private void DownloadCollecArt(IEnumerable<Collection> collecToSynchro)
-        {
-            foreach (var item in collecToSynchro)
-            {
-                //DownloadFile In Correct Folder
-            }
-        }
         public async Task<bool> SeriesArtPartial()
 		{
 			try
@@ -83,14 +82,6 @@ namespace Bookzilla.Client.Services.Implémentation
 			}
 			return true;
         }
-
-        private void DownloadSerieArt(IEnumerable<Serie> seriesToSynchro)
-        {
-            foreach (var item in seriesToSynchro)
-            {
-                //DownloadFile In Correct Folder
-            }
-        }
         public async Task<bool> CoverFilePartial()
 		{
 			try
@@ -119,13 +110,6 @@ namespace Bookzilla.Client.Services.Implémentation
 				//throw;
 			}
 			return true;
-        }
-        private void DownloadCoverArt(IEnumerable<Album> albumsToSynchro)
-        {
-            foreach (var item in albumsToSynchro)
-            {
-                //DownloadFile In Correct Folder
-            }
         }
         public async Task<bool> FilePartial()
 		{
@@ -157,11 +141,81 @@ namespace Bookzilla.Client.Services.Implémentation
 			}
 			return true;
         }
-        private void DownloadFileArt(IEnumerable<Album> albumsToSynchro)
+        private string CreateLocalCollecArtPath( string filepath)
+        {
+            return CreateLocalPath(CollecArtFolder,Path.GetFileName(filepath));
+        }
+        private string CreateLocalSerieArtPath( string filepath)
+        {
+            return CreateLocalPath(SerieArtFolder, Path.GetFileName(filepath));
+        }
+        private string CreateLocalCoverPath( string filepath)
+        {
+            return CreateLocalPath(CoverFolder, Path.GetFileName(filepath));
+        }
+        private string CreateLocalFilePath( string filepath)
+        {
+            return CreateLocalPath(FileFolder, Path.GetFileName(filepath));
+        }
+        private string CreateLocalPath(string folder,string filepath)
+        {
+            return Path.Combine(_settings.BookzillaFolder, folder,filepath);
+        }
+        private async void DownloadCoverArt(IEnumerable<Album> albumsToSynchro)
         {
             foreach (var item in albumsToSynchro)
             {
                 //DownloadFile In Correct Folder
+                using(var httpClient = new HttpClient())
+                {
+                    var uri = Path.Combine(_settings.BookzillaApiEndpoint, item.CoverArtPath);
+                    var outputPath = CreateLocalCoverPath(item.CoverArtPath);
+                    byte[] fileBytes = await httpClient.GetByteArrayAsync(uri);
+                    File.WriteAllBytes(outputPath, fileBytes);
+                }
+            }
+        }
+
+        private async void DownloadSerieArt(IEnumerable<Serie> seriesToSynchro)
+        {
+            foreach (var item in seriesToSynchro)
+            {
+                //DownloadFile In Correct Folder
+                using (var httpClient = new HttpClient())
+                {
+                    var uri = Path.Combine(_settings.BookzillaApiEndpoint, item.CoverArtPath);
+                    var outputPath = CreateLocalSerieArtPath(item.CoverArtPath);
+                    byte[] fileBytes = await httpClient.GetByteArrayAsync(uri);
+                    File.WriteAllBytes(outputPath, fileBytes);
+                }
+            }
+        }
+        private async void DownloadCollecArt(IEnumerable<Collection> collecToSynchro)
+        {
+            foreach (var item in collecToSynchro)
+            {
+                //DownloadFile In Correct Folder
+                using (var httpClient = new HttpClient())
+                {
+                    var uri = Path.Combine(_settings.BookzillaApiEndpoint, item.ImageArtPath);
+                    var outputPath = CreateLocalCollecArtPath(item.ImageArtPath);
+                    byte[] fileBytes = await httpClient.GetByteArrayAsync(uri);
+                    File.WriteAllBytes(outputPath, fileBytes);
+                }
+            }
+        }
+        private async void DownloadFileArt(IEnumerable<Album> albumsToSynchro)
+        {
+            foreach (var item in albumsToSynchro)
+            {
+                //DownloadFile In Correct Folder
+                using (var httpClient = new HttpClient())
+                {
+                    var uri = Path.Combine(_settings.BookzillaApiEndpoint, item.Path);
+                    var outputPath = CreateLocalFilePath(item.Path);
+                    byte[] fileBytes = await httpClient.GetByteArrayAsync(uri);
+                    File.WriteAllBytes(outputPath, fileBytes);
+                }
             }
         }
     }

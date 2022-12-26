@@ -28,7 +28,8 @@ namespace Bookzilla.Client.Services.Implémentation
         }
         public async Task<int> DeleteCollectionAsync(Collection item)
         {
-            return await _context.DeleteCollectionAsync(item);
+            item.SynchroStatus = SynchroStatus.Deleted;
+            return await _context.SaveCollectionAsync(item);
         }
         public async Task<int> UpsertCollectionAsync(Collection item)
         {

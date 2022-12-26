@@ -13,7 +13,7 @@ namespace Bookzilla.Client.Services.Interface
         Task<IEnumerable<Album>> GetAllByName(string search);
         Task<IEnumerable<Album>> GetAllBySeries(int id);
         Task<Album> Get(int id);
-        Task<int> DeleteCollectionAsync(Collection item);
-        Task<int> UpsertCollectionAsync(Collection item);
+        Task<int> DeleteAlbumAsync(Album item);
+        Task<int> UpsertAlbumAsync(Album item);
     }
 }

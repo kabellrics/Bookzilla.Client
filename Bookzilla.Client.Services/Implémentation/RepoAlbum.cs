@@ -31,13 +31,14 @@ namespace Bookzilla.Client.Services.Implémentation
         {
             return await _context.GetAlbumAsync(id);
         }
-        public async Task<int> DeleteCollectionAsync(Collection item)
+        public async Task<int> DeleteAlbumAsync(Album item)
         {
-            return await _context.DeleteCollectionAsync(item);
+            item.SynchroStatus = SynchroStatus.Deleted;
+            return await _context.SaveAlbumAsync(item);
         }
-        public async Task<int> UpsertCollectionAsync(Collection item)
+        public async Task<int> UpsertAlbumAsync(Album item)
         {
-            return await _context.SaveCollectionAsync(item);
+            return await _context.SaveAlbumAsync(item);
         }
     }
 }
