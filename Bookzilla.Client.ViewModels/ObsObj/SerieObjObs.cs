@@ -18,15 +18,38 @@ namespace Bookzilla.Client.ViewModels.ObsObj
         public Serie Serie { get; }
         public int Id
         {
-            get => Collection.Id;
-            set => SetProperty(Collection.Id, value, Collection, (emulator, item) => Collection.Id = item);
+            get => Serie.Id;
+            set => SetProperty(Serie.Id, value, Serie, (emulator, item) => Serie.Id = item);
+        }
+        public int CollectionId
+        {
+            get => Serie.CollectionId;
+            set => SetProperty(Serie.CollectionId, value, Serie, (emulator, item) => Serie.CollectionId = item);
         }
         public string Name
         {
-            get => Collection.Name;
+            get => Serie.Name;
             set
             {
-                SetProperty(Collection.Name, value, Collection, (emulator, item) => Collection.Name = item);
+                SetProperty(Serie.Name, value, Serie, (emulator, item) => Serie.Name = item);
+                SynchroStatus = SynchroStatus.Changed;
+            }
+        }
+        public string CoverArtPath
+        {
+            get => Serie.CoverArtPath;
+            set
+            {
+                SetProperty(Serie.CoverArtPath, value, Serie, (emulator, item) => Serie.CoverArtPath = item);
+                SynchroStatus = SynchroStatus.Changed;
+            }
+        }
+        public string LocalCoverArtPath
+        {
+            get => Serie.LocalCoverArtPath;
+            set
+            {
+                SetProperty(Serie.LocalCoverArtPath, value, Serie, (emulator, item) => Serie.LocalCoverArtPath = item);
                 SynchroStatus = SynchroStatus.Changed;
             }
         }

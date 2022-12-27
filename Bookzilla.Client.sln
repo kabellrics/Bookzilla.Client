@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookzilla.Client.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookzilla.Client.Services", "Bookzilla.Client.Services\Bookzilla.Client.Services.csproj", "{65551BE8-B9E9-43CD-A59D-9671937707D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookzilla.Client.APIClient", "Bookzilla.Client.APIClient\Bookzilla.Client.APIClient.csproj", "{CDD1ECA7-102E-4698-ADED-5A694AACBACE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookzilla.Client.APIClient", "Bookzilla.Client.APIClient\Bookzilla.Client.APIClient.csproj", "{CDD1ECA7-102E-4698-ADED-5A694AACBACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookzilla.Client.ViewModels", "Bookzilla.Client.ViewModels\Bookzilla.Client.ViewModels.csproj", "{53285302-E5F6-4A83-B787-3516127695AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CDD1ECA7-102E-4698-ADED-5A694AACBACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDD1ECA7-102E-4698-ADED-5A694AACBACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDD1ECA7-102E-4698-ADED-5A694AACBACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53285302-E5F6-4A83-B787-3516127695AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53285302-E5F6-4A83-B787-3516127695AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53285302-E5F6-4A83-B787-3516127695AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53285302-E5F6-4A83-B787-3516127695AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

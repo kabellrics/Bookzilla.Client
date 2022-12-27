@@ -49,12 +49,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	  <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Bookzilla.Client.Models\Bookzilla.Client.Models.csproj" />
+	  <ProjectReference Include="..\Bookzilla.Client.Services\Bookzilla.Client.Services.csproj" />
+	  <ProjectReference Include="..\Bookzilla.Client.ViewModels\Bookzilla.Client.ViewModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\" />
 	</ItemGroup>
 
 </Project>
