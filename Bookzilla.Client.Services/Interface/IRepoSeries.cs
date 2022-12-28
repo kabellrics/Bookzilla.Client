@@ -15,5 +15,6 @@ namespace Bookzilla.Client.Services.Interface
         Task<Serie> Get(int id);
         Task<int> DeleteSerieAsync(Serie item);
         Task<int> UpsertSerieAsync(Serie item);
+        Task<IEnumerable<Serie>> GetCurrentReading();
     }
 }

@@ -27,6 +27,11 @@ namespace Bookzilla.Client.Services.Implémentation
             var albs = await _context.GetAlbumsAsync();
             return albs.Where(x=>x.SerieId == id).OrderBy(x=>x.Name);
         }
+        public async Task<IEnumerable<Album>> GetCurrentReading()
+        {
+            var albs = await _context.GetAlbumsAsync();
+            return albs.Where(x=>x.ReadingStatus == ReadingStatus.EnCours).OrderByDescending(x=>x.CurrentPage);
+        }
         public async Task<Album> Get(int id)
         {
             return await _context.GetAlbumAsync(id);

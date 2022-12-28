@@ -17,7 +17,10 @@ namespace Bookzilla.Client
         }
 
         public Task InitializeAsync() =>
-            NavigateToAsync("//Home");
+             NavigateToAsync(
+            string.IsNullOrEmpty(_settingsService.BookzillaApiEndpoint) || string.IsNullOrEmpty(_settingsService.BookzillaFolder)
+                ? "Settings"
+                : "Home");
 
         public Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null)
         {
