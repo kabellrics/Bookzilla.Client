@@ -102,6 +102,7 @@ namespace Bookzilla.Client.ViewModels.VM
         public HomeViewModel(ISettingsService settingsService, INavigationService navigationService, ISynchroService synchroService, IRepository repository)
             : base(settingsService, navigationService, synchroService, repository)
         {
+            TitlePage = "Bookzilla";
             ReadAlbLabel = "Album en cours de lecture";
             ReadCollecLabel = "Collection en cours de lecture";
             ReadSerieLabel = "Série en cours de lecture";
@@ -137,17 +138,17 @@ namespace Bookzilla.Client.ViewModels.VM
         private async Task GoToAlbumSpecificAsync(AlbumObjObs item)
         {
             await _navigationService.NavigateToAsync("AlbumDetail",
-                    new Dictionary<string, object> { { "Item", item } });
+                    new Dictionary<string, object> { { "ItemId", item.Id } });
         }
         private async Task GoToSerieSpecificAsync(SerieObjObs item)
         {
             await _navigationService.NavigateToAsync("SerieDetail",
-                    new Dictionary<string, object> { { "Item", item } });
+                    new Dictionary<string, object> { { "ItemId", item.Id } });
         }
         private async Task GoToCollectionSpecificAsync(CollectionObjObs item)
         {
             await _navigationService.NavigateToAsync("CollectionDetail",
-                    new Dictionary<string, object> { { "Item", item } });
+                    new Dictionary<string, object> { { "ItemId", item.Id } });
         }
         private async Task GotoSynchroAsync()
         {

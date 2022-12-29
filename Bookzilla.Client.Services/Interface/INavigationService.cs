@@ -13,5 +13,6 @@ namespace Bookzilla.Client.Services.Interface
         Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null);
 
         Task PopAsync();
+        Task GoBackAsync();
     }
 }

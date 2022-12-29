@@ -33,5 +33,7 @@ namespace Bookzilla.Client
 
         public Task PopAsync() =>
             Shell.Current.GoToAsync("..");
+        public Task GoBackAsync() =>
+            Shell.Current.GoToAsync("..");
     }
 }
