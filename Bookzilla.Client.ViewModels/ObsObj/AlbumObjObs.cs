@@ -35,6 +35,15 @@ namespace Bookzilla.Client.ViewModels.ObsObj
                 SynchroStatus = SynchroStatus.Changed;
             }
         }
+        public ReadingStatus ReadingStatus
+        {
+            get => Album.ReadingStatus;
+            set
+            {
+                SetProperty(Album.ReadingStatus, value, Album, (emulator, item) => Album.ReadingStatus = item);
+                SynchroStatus = SynchroStatus.Changed;
+            }
+        }
         public int Order
         {
             get => Album.Order;

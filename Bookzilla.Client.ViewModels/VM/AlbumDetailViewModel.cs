@@ -23,7 +23,7 @@ namespace Bookzilla.Client.ViewModels.VM
         public AlbumDetailViewModel(ISettingsService settingsService, INavigationService navigationService, ISynchroService synchroService, IRepository repository)
             :base(settingsService,navigationService, synchroService, repository)
         {
-            TitlePage = Item.Name;
+            
         }
         public override void ApplyQueryAttributes(IDictionary<string, object> query)
         {
