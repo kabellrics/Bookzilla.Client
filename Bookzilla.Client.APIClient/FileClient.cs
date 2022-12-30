@@ -11,13 +11,20 @@ namespace Bookzilla.Client.APIClient
         private string _baseUrl = "";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
+        public String CollectionArtPath;
+        public String SerieArtPath;
+        public String CoverPath;
+        public String FilePath;
         public FileClient(string baseUrl, System.Net.Http.HttpClient httpClient)
         {
             BaseUrl = baseUrl;
             _httpClient = httpClient;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
-        }
+            CollectionArtPath = Path.Combine(BaseUrl, "api/File/CollectionCover/{id}");
+            SerieArtPath = Path.Combine(BaseUrl, "api/File/SerieCover/{id}"); ;
+            CoverPath = Path.Combine(BaseUrl, "api/File/AlbumCover/{id}"); ;
+            FilePath = Path.Combine(BaseUrl, "api/File/AlbumFile/{id}"); ;
+    }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
         {

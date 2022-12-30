@@ -5,6 +5,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,27 @@ namespace Bookzilla.Client.Services.Implémentation
         public FileSynchro(BookzillaLocalDatabase context, String ApiAddress, ISettingsService settings) : base(context, ApiAddress, settings)
         {
             
+        }
+
+        private string GetLocalPath(string Folder, string file)
+        {
+            return Path.Combine(_settings.BookzillaFolder, Folder, file);
+        }
+        private String GetLocalCollecArtPath(string filepath)
+        {
+            return GetLocalPath(CollectionArtFolder, Path.GetFileName(filepath));
+        }
+        private String GetLocalSerieArtPath(string filepath)
+        {
+            return GetLocalPath(SerieArtFolder, Path.GetFileName(filepath));
+        }
+        private String GetLocalCoverPath(string filepath)
+        {
+            return GetLocalPath(CoverFolder, Path.GetFileName(filepath));
+        }
+        private String GetLocalFilePath(string filepath)
+        {
+            return GetLocalPath(FileFolder, Path.GetFileName(filepath));
         }
 		public async Task<bool> CollectionArtPartial()
 		{
